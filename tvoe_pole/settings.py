@@ -4,7 +4,7 @@ import environ
 
 from pathlib import Path
 
-BASE_DIR = environ.Path(__file__) - 3
+BASE_DIR = environ.Path(__file__) - 2
 env = environ.Env()
 environ.Env.read_env('.envs')
 
@@ -37,7 +37,8 @@ DJANGO_APPS = [
 
 
 INSTALLED_APPS = [
-    "rest_framework"
+    "rest_framework",
+    "django_extensions"
 ]
 
 
@@ -136,3 +137,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = BASE_DIR('media')
+MEDIA_URL = '/media/'

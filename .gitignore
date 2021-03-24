@@ -12,8 +12,8 @@ Icon
 # migrations
 */migrations/*.py
 .envs
-
-
+.mypy_cache
+media/
 !*/migrations/
 !*/migrations/__init__.py
 !utils/migrations/0001_initial.py
