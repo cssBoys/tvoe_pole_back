@@ -10,9 +10,13 @@ Icon
 
 
 # migrations
-!*/migrations/__init__.py
 */migrations/*.py
 .envs
+
+
+!*/migrations/
+!*/migrations/__init__.py
+!utils/migrations/0001_initial.py
 
 # Thumbnails
 ._*
