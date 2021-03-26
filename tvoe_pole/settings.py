@@ -37,6 +37,7 @@ DJANGO_APPS = [
 
 
 INSTALLED_APPS = [
+    "corsheaders",
     "rest_framework",
     "django_extensions"
 ]
@@ -57,6 +58,7 @@ INSTALLED_APPS = DJANGO_APPS + INSTALLED_APPS + LOCAL_APPS
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -84,6 +86,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'tvoe_pole.wsgi.application'
 
+
+# CORS
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -136,6 +142,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+STATIC_ROOT = BASE_DIR('static')
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = BASE_DIR('media')
