@@ -45,7 +45,8 @@ INSTALLED_APPS = [
 
 LOCAL_APPS = [
     "playground",
-    "utils"
+    "utils",
+    "news",
 ]
 
 
