@@ -16,4 +16,5 @@ router = DefaultRouter()
 
 router.register("article", ArticleViewSet, basename="article")
 
+
 urlpatterns = router.urls

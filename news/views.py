@@ -1,5 +1,5 @@
 from .models import Article, ArticleImage
-from .serializers import ArticleSerializer, ArticleImageSerializer, ArticleDetailSerializer
+from .serializers import ArticleListSerializer,  ArticleDetailSerializer #, ArticleImageSerializer,
 
 from rest_framework.permissions import AllowAny
 from rest_framework import generics
@@ -32,17 +32,24 @@ class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class ArticleViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
-    serializer_class = serializers.ArticleSerializer
+    serializer_class = serializers.ArticleListSerializer
     serializer_action_classes = {
-        'list': serializers.ArticleSerializer,
+        'list': serializers.ArticleListSerializer,
         'retrieve': serializers.ArticleDetailSerializer
     }
     queryset = Article.objects.all().order_by('-date')
     permission_classes = (AllowAny, )
     pagination_class = CustomPageNumberPagination
 
+
     def get_serializer_class(self):
         try:
             return self.serializer_action_classes[self.action]
         except (KeyError, AttributeError):
-            return super().get_serializer_class()
+           return super().get_serializer_class()
+
+
+
+
+
+
