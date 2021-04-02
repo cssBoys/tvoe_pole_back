@@ -1,5 +1,5 @@
 from .models import Article, ArticleImage
-from .serializers import ArticleListSerializer,  ArticleDetailSerializer #, ArticleImageSerializer,
+from .serializers import ArticleListSerializer,  ArticleDetailSerializer ,ImageListSerializer
 
 from rest_framework.permissions import AllowAny
 from rest_framework import generics
@@ -9,6 +9,7 @@ from . import serializers
 from utils.pagination import CustomPageNumberPagination
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from rest_framework.viewsets import GenericViewSet
+from rest_framework import viewsets
 
 
 
@@ -47,6 +48,12 @@ class ArticleViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
             return self.serializer_action_classes[self.action]
         except (KeyError, AttributeError):
            return super().get_serializer_class()
+
+
+
+class ImageViewSet(viewsets.ModelViewSet):
+    queryset = ArticleImage.objects.all()
+    serializer_class = ImageListSerializer    
 
 
 
