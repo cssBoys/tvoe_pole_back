@@ -5,5 +5,6 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('playground.urls'))
+    path('api/', include('playground.urls')),
+    path('newsapi/', include('news.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
