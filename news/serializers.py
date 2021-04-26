@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Article, ArticleImage
 
 
-class ArticleListSerilaizer(serializers.ModelSerializer):
+class ArticleListSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Article
