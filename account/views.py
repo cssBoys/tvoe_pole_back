@@ -4,7 +4,7 @@ Account views
 from django.core.cache import cache
 from rest_framework import mixins
 from rest_framework.decorators import action
-from rest_framework.permissions import AllowAny
+from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
@@ -12,13 +12,20 @@ from account.models import CustomUser
 from account.serializers import UserSerializer
 
 
-class UserCreateView(mixins.CreateModelMixin, GenericViewSet):
+class UserCreateView(mixins.CreateModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
     """
     User creation view
     """
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (AllowAny, )
+    permission_classes = (permissions.AllowAny, )
+
+
+    @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAuthenticated])
+    def me(self, request, *args, **kwargs):
+        instance = request.user
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
 
     @action(detail=False, methods=['POST'])
