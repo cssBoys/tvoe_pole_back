@@ -15,6 +15,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=255)
     surname = models.CharField(max_length=255)
     date_joined = models.DateTimeField(default=timezone.now)
+    balance = models.FloatField(default=0)
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
@@ -33,3 +34,4 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 
 post_save.connect(post_user_save, sender=CustomUser)
+

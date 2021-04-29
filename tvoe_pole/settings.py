@@ -42,6 +42,7 @@ LOCAL_APPS = [
     "playground",
     "utils",
     "news",
+    "payments"
 ]
 
 REST_FRAMEWORK = {
@@ -166,6 +167,13 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Paybox
+PAYBOX_LOGIN = env.str('PAYBOX_LOGIN')
+PAYBOX_SECRET = env.str('PAYBOX_PASSWORD')
+PAYBOX_URL = env.str('PAYBOX_URL')
+PAYBOX_CURRENCY = env.str('PAYBOX_CURRENCY')
+PAYBOX_DESCRIPTION = env.str('PAYBOX_DESCRIPTION')
 
 
 # Internationalization
