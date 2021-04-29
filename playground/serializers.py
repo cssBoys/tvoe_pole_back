@@ -1,6 +1,30 @@
 from rest_framework import serializers
-from .models import Category, Playground, PlaygroundImage
+from .models import Category, Playground, PlaygroundImage, Review
 from utils.serializers import DayOfWeekSerializer, CitySerializer
+from django.contrib.auth.models import User
+
+
+class ReviewCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = "__all__"
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ("name", "text")
+
+
+
+
+
+
+
+
+
+
+
 
 
 class PlaygroundListSerializer(serializers.ModelSerializer):
@@ -30,6 +54,7 @@ class PlaygroundDetailsSerializer(serializers.ModelSerializer):
 
     working_days = DayOfWeekSerializer(many=True, read_only=True)
     city = CitySerializer(many=False, read_only=True)
+    reviews = ReviewCreateSerializer(many=True)
 
     class Meta:
         model = Playground
@@ -45,5 +70,6 @@ class PlaygroundDetailsSerializer(serializers.ModelSerializer):
             "phone",
             "rating",
             "longitude",
-            "latitude"
+            "latitude",
+            "reviews",
         ]
