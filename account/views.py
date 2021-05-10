@@ -10,6 +10,7 @@ from rest_framework.viewsets import GenericViewSet
 
 from account.models import CustomUser
 from account.serializers import UserSerializer
+from account.utils import generate_code
 
 
 class UserCreateView(mixins.CreateModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
@@ -49,10 +50,11 @@ class UserCreateView(mixins.CreateModelMixin, mixins.RetrieveModelMixin, Generic
         """
         Resend
         """
-        data = request.data
-        cache.set(str(data.get('id')), '7777', 60 * 3)
-        return Response({'message': 'ok'}, status=200)
-
-
+        try:
+            user = CustomUser.objects.get(id = request.data.get('id'))
+            generate_code(user.id, user.phone)
+            return Response({'message': 'ok'}, status=200)
+        except Exception:
+            return Response({'message': 'Что то пошло не так'}, status=406)
 
 
