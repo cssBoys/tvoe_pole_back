@@ -6,11 +6,15 @@ class ArticleListSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Article
-		fields = ["id","title","date",]
+		fields = ["id", "title", "date", "main_image"]
 
 
 class ImageListSerializer(serializers.ModelSerializer):
 
+	image = serializers.SerializerMethodField()
+
+	def get_image(self, obj):
+		return obj.image.url
 
 	class Meta:
 		model = ArticleImage
@@ -19,12 +23,11 @@ class ImageListSerializer(serializers.ModelSerializer):
 
 class ArticleDetailSerializer(serializers.ModelSerializer):
 
-
-	articleImages = ImageListSerializer(read_only=True, many=True)
+	images = ImageListSerializer(read_only=True, many=True)
 	
 	class Meta:
 		model = Article
-		fields = ["id","title","body","date","articleImages"]
+		fields = ["id","title","body","date","images"]
 
 
 
