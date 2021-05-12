@@ -43,7 +43,7 @@ class Playground(models.Model):
 
     @property
     def rating(self):
-        return self.reviews.all().aggregate(Avg('rating'))
+        return self.reviews.all().aggregate(Avg('rating')).get('rating__avg', 0)
         
 
 class PlaygroundImage(models.Model):
