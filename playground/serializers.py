@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class ReviewCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = "__all__"
+        fields = ["playground", "text", "rating"]
 
 
 

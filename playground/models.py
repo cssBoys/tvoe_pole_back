@@ -55,7 +55,7 @@ class Review(models.Model):
     playground = models.ForeignKey(Playground, on_delete=models.CASCADE, related_name="reviews")
     user = models.ForeignKey(to='account.CustomUser', on_delete=models.CASCADE)
     
-    text = models.TextField(blank=True)
+    text = models.TextField()
     rating = models.IntegerField(default=0)
 
     created = models.DateTimeField(auto_now_add=True)
