@@ -10,22 +10,6 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class ReviewSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Review
-        fields = ("name", "text")
-
-
-
-
-
-
-
-
-
-
-
-
 
 class PlaygroundListSerializer(serializers.ModelSerializer):
 
