@@ -39,7 +39,8 @@ DJANGO_APPS = [
 INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
-    "django_extensions"
+    "django_extensions",
+    "django_filters",
 ]
 
 
@@ -148,3 +149,12 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = BASE_DIR('media')
 MEDIA_URL = '/media/'
+
+
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
+
+

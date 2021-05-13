@@ -7,11 +7,18 @@ from utils.pagination import CustomPageNumberPagination
 from .models import Category, Playground, Review
 from . import serializers
 
-from .serializers import ReviewCreateSerializer, ReviewSerializer
-
-
 from rest_framework import permissions, status
 from rest_framework.response import Response
+
+
+
+
+#new
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
+
+
+from django_filters import rest_framework as filters, CharFilter
 
 
 class CategoryViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
@@ -19,6 +26,16 @@ class CategoryViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
     queryset = Category.objects.all()
     permission_classes = (AllowAny, )
 
+
+
+
+class PlaygroundFilter(filters.FilterSet):
+    playground_type = CharFilter(field_name='playground_type__title', lookup_expr='icontains')
+    rating = filters.RangeFilter()
+
+    class Meta:
+        model = Playground
+        fields = ['playground_type', 'rating']
 
 
 class PlaygroundViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
@@ -31,6 +48,15 @@ class PlaygroundViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
     permission_classes = (AllowAny, )
     pagination_class = CustomPageNumberPagination
 
+
+    #new
+    filter_backends = (SearchFilter, OrderingFilter, DjangoFilterBackend)
+    search_fields = ('title','address')
+    ordering_fields = ['price']
+    filterset_class = PlaygroundFilter
+    #filterset_fields = ['playground_type__title']
+    
+
     def get_serializer_class(self):
         try:
             return self.serializer_action_classes[self.action]
@@ -39,16 +65,13 @@ class PlaygroundViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
 
 
 
+
+
 class ReviewCreateViewSet(ModelViewSet):
-    #permission_classes = (IsAuthorOrReadOnly,)
-    #permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = (permissions.IsAuthenticated,)
+
     serializer_class = serializers.ReviewCreateSerializer
     queryset = Review.objects.all()
 
-
-    def delete(self, request, *args, **kwargs):
-        if self.get_queryset().exists():
-            self.get_queryset().delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        else:
-            raise ValidationError('I haven\' wrote a review yet.s')
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

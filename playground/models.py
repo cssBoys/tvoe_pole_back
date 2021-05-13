@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Avg
 
 class Category(models.Model):
     title = models.CharField(max_length=255)
@@ -43,42 +44,20 @@ class Playground(models.Model):
 
     @property
     def rating(self):
-        #return 0
-        #return self.reviews.first().rating
-
-        total = 0
-        for i in self.reviews.all():
-            total += i.rating
-        if len(self.reviews.all()) == 0:
-            return 0;
-        return total/ len(self.reviews.all())
+        return self.reviews.all().aggregate(Avg('rating')).get('rating__avg', 0) or 0
         
-
-
-
-
 
 class PlaygroundImage(models.Model):
     playground = models.ForeignKey(to="Playground", on_delete=models.CASCADE, related_name="images")
     image = models.ImageField()
 
 
-
-
-
-
-
-
-
-
 class Review(models.Model):
-    playground = models.ForeignKey(Playground, on_delete=models.CASCADE, null=True, related_name="reviews")
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    playground = models.ForeignKey(Playground, on_delete=models.CASCADE, related_name="reviews")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     
-
-    name = models.CharField(max_length=200)
-    text = models.TextField(null=True, blank=True)
-    rating = models.IntegerField(null=True, blank=True, default=0)
+    text = models.TextField()
+    rating = models.IntegerField(default=0)
 
     createdAt = models.DateTimeField(auto_now_add=True)
 
