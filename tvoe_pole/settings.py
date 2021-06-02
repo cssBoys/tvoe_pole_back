@@ -42,7 +42,8 @@ LOCAL_APPS = [
     "playground",
     "utils",
     "news",
-    "payments"
+    "payments",
+    "booking"
 ]
 
 REST_FRAMEWORK = {
