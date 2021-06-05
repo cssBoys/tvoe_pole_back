@@ -19,23 +19,23 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 
 from django_filters import rest_framework as filters, CharFilter
-
+from django_property_filter import PropertyNumberFilter, PropertyFilterSet
 
 class CategoryViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
     serializer_class = serializers.CategorySerializer
     queryset = Category.objects.all()
     permission_classes = (AllowAny, )
 
-
-
-
-class PlaygroundFilter(filters.FilterSet):
+class PlaygroundFilter(filters.FilterSet, PropertyFilterSet):
     playground_type = CharFilter(field_name='playground_type__title', lookup_expr='icontains')
-    rating = filters.RangeFilter()
-
+    price = filters.RangeFilter()
+    
     class Meta:
         model = Playground
-        fields = ['playground_type', 'rating']
+        fields = ['playground_type', 'price',] 
+        property_fields = [
+        ('rating', PropertyNumberFilter, ['lt', 'gt']),
+        ]
 
 
 class PlaygroundViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
@@ -54,8 +54,8 @@ class PlaygroundViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
     search_fields = ('title','address')
     ordering_fields = ['price']
     filterset_class = PlaygroundFilter
-    #filterset_fields = ['playground_type__title']
     
+
 
     def get_serializer_class(self):
         try:
