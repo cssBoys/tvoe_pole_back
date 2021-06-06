@@ -10,4 +10,4 @@ class BookingViewSet(CreateModelMixin, GenericViewSet):
     serializer_class = BookingSerializer
 
     def perform_create(self, serializer):
-        return serializer.save(user=self.request.user.id)
+        return serializer.save(user=self.request.user)
