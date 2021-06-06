@@ -88,7 +88,7 @@ class PlaygroundViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
                 'date_finish': date_finish.strftime("%Y-%m-%d %H:%M:%S"),
                 'active': True
             })
-        booking_qs = Booking.objects.filter(pk=pk)
+        booking_qs = Booking.objects.filter(playground_id=pk)
         for el in data:
             datex = date + datetime.timedelta(hours=el['hour'])
             if booking_qs.filter(date_start__gte = datex, date_finish__lte = datex).exists():
