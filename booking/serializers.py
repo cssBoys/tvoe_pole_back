@@ -10,8 +10,4 @@ class BookingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Booking
-        fields = ["day", "playground", "date_start", "date_finish"]
-
-
-    def create(self, validated_data):
-        pass
+        fields = ["playground", "date_start", "date_finish"]
