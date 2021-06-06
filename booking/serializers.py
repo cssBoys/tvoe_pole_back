@@ -21,7 +21,7 @@ class BookingSerializer(serializers.ModelSerializer):
         from playground.models import Playground
 
         user = validated_data.get('user')
-        playground = Playground.objects.get(id=validated_data.get('playground'))
+        playground = validated_data.get('playground')
 
         if user.balance < playground.price:
             raise NotEnoughtBalanceException
