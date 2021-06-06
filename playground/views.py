@@ -27,7 +27,7 @@ def get_month(id):
 
 def get_dayofweek(id):
     days = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
-
+    return days[id]
 
 class PlaygroundViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
     serializer_class = serializers.PlaygroundListSerializer
