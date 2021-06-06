@@ -92,7 +92,7 @@ class PlaygroundViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
         for el in data:
             datex = date + datetime.timedelta(hours=playground.time_start.hour + el['hour'])
             el['datex'] = datex
-            if booking_qs.filter(date_start__gte = datex, date_finish__lte = datex).exists():
+            if booking_qs.filter(date_start__lte = datex, date_finish__gt = datex).exists():
                 el['active'] = False
         return Response(data)
 
