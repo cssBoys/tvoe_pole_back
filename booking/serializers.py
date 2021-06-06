@@ -10,7 +10,7 @@ class BookingSerializer(serializers.ModelSerializer):
     date_start = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
     date_finish = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
     read_only_fields = ('user',)
-    
+
     class Meta:
         model = Booking
         fields = ["playground", "date_start", "date_finish"]
@@ -20,7 +20,7 @@ class BookingSerializer(serializers.ModelSerializer):
         from account.models import CustomUser
         from playground.models import Playground
 
-        user = CustomUser.objects.get(user=validated_data.get('user'))
+        user = CustomUser.objects.get(id=validated_data.get('user'))
         playground = Playground.objects.get(id=validated_data.get('playground'))
 
         if user.balance < playground.price:
