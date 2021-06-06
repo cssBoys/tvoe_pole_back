@@ -1,3 +1,4 @@
+from datetime import timedelta
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.mixins import CreateModelMixin, ListModelMixin, RetrieveModelMixin
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -85,7 +86,7 @@ class PlaygroundViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
             })
         booking_qs = Booking.objects.filter(pk=pk)
         for el in data:
-            date.hour += el['hour']
+            date += timedelta(hour=el['hour'])
             if booking_qs.filter(date_start__gte = date, date_finish__lte = date).exists():
                 el['active'] = False
         return Response(data)
