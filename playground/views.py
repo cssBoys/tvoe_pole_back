@@ -23,7 +23,7 @@ class CategoryViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
 
 def get_month(id):
     month = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь']
-    return month[id + 1]
+    return month[id - 1]
 
 def get_dayofweek(id):
     days = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
