@@ -70,6 +70,30 @@ class PlaygroundViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
             
         return Response(data)
 
+    @action(detail=True, permission_classes=[IsAuthenticated, ], methods=['post', ])
+    def watch(self, request, pk):
+        import datetime
+        from booking.models import Booking
+        data = request.data
+        date = datetime.datetime(day=data['day'], month=data['month'], year=2021)
+        playground = Playground.objects.get(pk = pk)
+        data = []
+        for hour in range(playground.time_start.hour, playground.time_finish.hour, 2):
+            data.append({
+                'hour': hour,
+                'active': True
+            })
+        booking_qs = Booking.objects.filter(pk=pk)
+        for el in data:
+            date.hour = el['hour']
+            if booking_qs.filter(date_start__gte = date, date_finish__lte = date).exists():
+                el['active'] = False
+        return Response(data)
+
+            
+        
+        
+        
 
     # @action(detail=True, permission_classes=[IsAuthenticated, ], methods=['get', ])
     # def watch(self, request, pk):
