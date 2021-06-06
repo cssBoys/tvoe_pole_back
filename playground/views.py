@@ -80,8 +80,8 @@ class PlaygroundViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
         playground = Playground.objects.get(pk = pk)
         data = []
         for hour in range(playground.time_start.hour, playground.time_finish.hour, 2):
-            date_start = playground.time_start + datetime.timedelta(hours=hour)
-            date_finish = playground.time_start + datetime.timedelta(hours=hour + 2)
+            date_start = date + playground.time_start + datetime.timedelta(hours=hour)
+            date_finish = date + playground.time_start + datetime.timedelta(hours=hour + 2)
             data.append({
                 'hour': hour,
                 'date_start': date_start.strftime("%Y-%m-%d %H:%M:%S"),
@@ -94,38 +94,6 @@ class PlaygroundViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
             if booking_qs.filter(date_start__gte = datex, date_finish__lte = datex).exists():
                 el['active'] = False
         return Response(data)
-
-            
-        
-        
-        
-
-    # @action(detail=True, permission_classes=[IsAuthenticated, ], methods=['get', ])
-    # def watch(self, request, pk):
-        
-        
-    #     # from booking.models import Booking
-    #     # day = request.query_params.get('day')
-    #     # playground = Playground.objects.get(id=pk)
-    #     # data = [
-    #     #     {
-    #     #         'hour': hour,
-    #     #         'active': True
-    #     #     } for hour in range(
-    #     #         playground.time_start.hour, 
-    #     #         playground.time_finish.hour
-    #     #     )
-    #     # ]
-    #     # booking_qs = Booking.objects.filter(playground_id=pk, day=day)
-    #     # for booking in booking_qs:
-    #     #     for el in data:
-    #     #         for hour in range(booking.time_start.hour, booking.time_finish.hour):
-    #     #             if el['hour'] == hour:
-    #     #                 el['active'] = False
-    #     # return Response(data)
-    #     ...
-
-    
 
 
 
