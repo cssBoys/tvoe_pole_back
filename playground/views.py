@@ -52,7 +52,7 @@ class PlaygroundViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
         playground = Playground.objects.get(id=pk)
         wokring_days = list(playground.working_days.all().values_list('id', flat=True))
         for index in range(len(dates)):
-            weekday = playground[index].weekday + 1
+            weekday = dates[index].weekday + 1
             if weekday not in wokring_days:
                 dates.remove(index)
 
