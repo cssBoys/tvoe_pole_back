@@ -20,7 +20,7 @@ class BookingSerializer(serializers.ModelSerializer):
         from account.models import CustomUser
         from playground.models import Playground
 
-        user = CustomUser.objects.get(id=validated_data.get('user'))
+        user = validated_data.get('user')
         playground = Playground.objects.get(id=validated_data.get('playground'))
 
         if user.balance < playground.price:
