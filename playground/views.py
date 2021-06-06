@@ -80,8 +80,8 @@ class PlaygroundViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
         playground = Playground.objects.get(pk = pk)
         data = []
         for hour in range(playground.time_start.hour, playground.time_finish.hour, 2):
-            date_start = date + playground.time_start + datetime.timedelta(hours=hour)
-            date_finish = date + playground.time_start + datetime.timedelta(hours=hour + 2)
+            date_start = date +  datetime.timedelta(hours=playground.time_start.hours + hour)
+            date_finish = date + datetime.timedelta(hours=playground.time_start.hours + hour + 2)
             data.append({
                 'hour': hour,
                 'date_start': date_start.strftime("%Y-%m-%d %H:%M:%S"),
