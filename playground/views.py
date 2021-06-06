@@ -86,7 +86,7 @@ class PlaygroundViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
             })
         booking_qs = Booking.objects.filter(pk=pk)
         for el in data:
-            date += timedelta(hour=el['hour'])
+            date += datetime.timedelta(hour=el['hour'])
             if booking_qs.filter(date_start__gte = date, date_finish__lte = date).exists():
                 el['active'] = False
         return Response(data)
