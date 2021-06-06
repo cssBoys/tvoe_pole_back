@@ -1,3 +1,13 @@
-from django.shortcuts import render
+from django.http import request
+from rest_framework import serializers
+from rest_framework.viewsets import GenericViewSet
+from rest_framework.mixins import CreateModelMixin
+from rest_framework.permissions import IsAuthenticated
+from booking.serializers import BookingSerializer
 
-# Create your views here.
+class BookingViewSet(CreateModelMixin, GenericViewSet):
+    permission_classes = (IsAuthenticated, )
+    serializer_class = BookingSerializer
+
+    def perform_create(self, serializer):
+        return serializer.save(user=request.user)

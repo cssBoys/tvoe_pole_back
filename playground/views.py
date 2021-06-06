@@ -21,6 +21,14 @@ class CategoryViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
 
 
 
+def get_month(id):
+    month = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь']
+    return month[id + 1]
+
+def get_dayofweek(id):
+    days = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
+
+
 class PlaygroundViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
     serializer_class = serializers.PlaygroundListSerializer
     serializer_action_classes = {
@@ -38,27 +46,55 @@ class PlaygroundViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
             return super().get_serializer_class()
 
     @action(detail=True, permission_classes=[IsAuthenticated, ], methods=['get', ])
-    def watch(self, request, pk):
-        from booking.models import Booking
-        day = request.query_params.get('day')
+    def days(self, request, pk):
+        import datetime
+        dates = [datetime.datetime.today() + datetime.timedelta(days=day) for day in range(14)]
         playground = Playground.objects.get(id=pk)
-        data = [
-            {
-                'hour': hour,
-                'active': True
-            } for hour in range(
-                playground.time_start.hour, 
-                playground.time_finish.hour
+        wokring_days = list(playground.working_days.all().values_list('id', flat=True))
+        for index in range(len(dates)):
+            weekday = playground[index].weekday + 1
+            if weekday not in wokring_days:
+                dates.remove(index)
+
+        data = []
+
+        for date in dates:
+            data.append(
+                {
+                    'day': date.day,
+                    'month': date.month,
+                    'month_content': get_month(date.month),
+                    'day_content': get_dayofweek(date.weekday)
+                }
             )
-        ]
-        booking_qs = Booking.objects.filter(playground_id=pk, day=day)
-        for booking in booking_qs:
-            for el in data:
-                for hour in range(booking.time_start.hour, booking.time_finish.hour):
-                    if el['hour'] == hour:
-                        el['active'] = False
+            
         return Response(data)
+
+
+    # @action(detail=True, permission_classes=[IsAuthenticated, ], methods=['get', ])
+    # def watch(self, request, pk):
         
+        
+    #     # from booking.models import Booking
+    #     # day = request.query_params.get('day')
+    #     # playground = Playground.objects.get(id=pk)
+    #     # data = [
+    #     #     {
+    #     #         'hour': hour,
+    #     #         'active': True
+    #     #     } for hour in range(
+    #     #         playground.time_start.hour, 
+    #     #         playground.time_finish.hour
+    #     #     )
+    #     # ]
+    #     # booking_qs = Booking.objects.filter(playground_id=pk, day=day)
+    #     # for booking in booking_qs:
+    #     #     for el in data:
+    #     #         for hour in range(booking.time_start.hour, booking.time_finish.hour):
+    #     #             if el['hour'] == hour:
+    #     #                 el['active'] = False
+    #     # return Response(data)
+    #     ...
 
     
 
