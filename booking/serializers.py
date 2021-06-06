@@ -9,7 +9,8 @@ class BookingSerializer(serializers.ModelSerializer):
 
     date_start = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
     date_finish = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
-
+    read_only_fields = ('user',)
+    
     class Meta:
         model = Booking
         fields = ["playground", "date_start", "date_finish"]
@@ -27,5 +28,5 @@ class BookingSerializer(serializers.ModelSerializer):
 
         user.balance -= playground.price
         user.save()
-        
+
         return super().create(validated_data)
