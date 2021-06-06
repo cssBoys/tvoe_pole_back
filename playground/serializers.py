@@ -39,6 +39,7 @@ class PlaygroundDetailsSerializer(serializers.ModelSerializer):
     working_days = DayOfWeekSerializer(many=True, read_only=True)
     city = CitySerializer(many=False, read_only=True)
     reviews = ReviewCreateSerializer(many=True)
+    images = PlaygroundImageSerializer(many=True)
 
     class Meta:
         model = Playground
@@ -56,4 +57,5 @@ class PlaygroundDetailsSerializer(serializers.ModelSerializer):
             "longitude",
             "latitude",
             "reviews",
+            "images"
         ]
