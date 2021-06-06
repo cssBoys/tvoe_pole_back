@@ -5,9 +5,12 @@ from booking.models import Booking
 
 class BookingSerializer(serializers.ModelSerializer):
 
+    date_start = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    date_finish = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+
     class Meta:
         model = Booking
-        fields = ["day", "playground", "time_start", "time_finish"]
+        fields = ["day", "playground", "date_start", "date_finish"]
 
 
     def create(self, validated_data):

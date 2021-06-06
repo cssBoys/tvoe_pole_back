@@ -80,8 +80,12 @@ class PlaygroundViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
         playground = Playground.objects.get(pk = pk)
         data = []
         for hour in range(playground.time_start.hour, playground.time_finish.hour, 2):
+            date_start = playground.time_start + datetime.timedelta(hours=hour)
+            date_finish = playground.time_start + datetime.timedelta(hours=hour + 2)
             data.append({
                 'hour': hour,
+                'date_start': date_start.strftime("%Y-%m-%d %H:%M:%S"),
+                'date_finish': date_finish.strftime("%Y-%m-%d %H:%M:%S"),
                 'active': True
             })
         booking_qs = Booking.objects.filter(pk=pk)

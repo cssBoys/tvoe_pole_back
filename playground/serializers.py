@@ -21,7 +21,6 @@ class PlaygroundListSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
 
     playgrounds = PlaygroundListSerializer(many=True, read_only=True)
-
     class Meta:
         model = Category
         fields = ["id", "title", "playgrounds"]
